@@ -1,6 +1,6 @@
 package jpabook.jpashop.domain;
 
-import javafx.scene.Parent;
+
 import jpabook.jpashop.domain.item.Item;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,8 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
+@Getter@Setter
 public class Category {
 
     @Id
@@ -28,7 +27,7 @@ public class Category {
     )
     private List<Item> items = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Category parent;
 
@@ -36,5 +35,10 @@ public class Category {
     private List<Category> child = new ArrayList<>();
 
 
+    //======연관관계 메서드====//
+    public void setChildCategory(Category child) {
+        this.child.add(child);
+        child.setParent(this);
+    }
 
 }
