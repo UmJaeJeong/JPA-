@@ -28,8 +28,8 @@ import static org.junit.Assert.fail;
 @Transactional
 public class OrderServiceTest {
 
-//    @Autowired
-//    private EntityManager em;
+    @Autowired
+    private EntityManager em;
 
     @Autowired
     private OrderService orderService;
@@ -100,7 +100,7 @@ public class OrderServiceTest {
         Member member = new Member();
         member.setName("회원1");
         member.setAddress(new Address("서울", "강가", "123-123"));
-//        em.persist(member);
+        em.persist(member);
         return member;
     }
     private Book createBook(String name, int price, int stockQuantity) {
@@ -108,7 +108,7 @@ public class OrderServiceTest {
         book.setName(name);
         book.setStockQuantity(stockQuantity);
         book.setPrice(price);
-//        em.persist(book);
+        em.persist(book);
         return book;
     }
 }
