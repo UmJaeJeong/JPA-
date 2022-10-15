@@ -28,7 +28,6 @@ import static org.junit.Assert.fail;
 @Transactional
 public class OrderServiceTest {
 
-    @Autowired
     private EntityManager em;
 
     @Autowired
@@ -44,7 +43,7 @@ public class OrderServiceTest {
 
         Book book = createBook("지연이괴롭히기",10000,10);
 
-//        em.persist(book);
+        em.persist(book);
 
         int orderCount = 2;
         //when
