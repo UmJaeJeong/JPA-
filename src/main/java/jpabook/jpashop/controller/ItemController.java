@@ -3,6 +3,7 @@ package jpabook.jpashop.controller;
 import jpabook.jpashop.domain.item.Book;
 import jpabook.jpashop.domain.item.Item;
 import jpabook.jpashop.service.ItemService;
+import jpabook.jpashop.service.UpdateItemDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -65,17 +66,33 @@ public class ItemController {
     }
 
     @PostMapping(value = "/items/{itemId}/edit")
-    public String updateItem(@ModelAttribute("form") BookForm form) {
+    public String updateItem(@PathVariable("itemId") Long itemId, @ModelAttribute("form") BookForm form) {
 
-        Book book = new Book();
+        //준영속성 객체
+        /*Book book = new Book();
         book.setId(form.getId());
         book.setName(form.getName());
         book.setPrice(form.getPrice());
         book.setStockQuantity(form.getStockQuantity());
         book.setAuthor(form.getAuthor());
-        book.setIsbn(form.getIsbn());
+        book.setIsbn(form.getIsbn());*/
 
-        itemService.saveItem(book);
+        UpdateItemDTO updateItemDTO = new UpdateItemDTO();
+        updateItemDTO.setName(form.getName());
+        updateItemDTO.setPrice(form.getPrice());
+        updateItemDTO.setStockQuantity(form.getStockQuantity());
+        //보통 form같은 경우는 web계층에서만 사용하기 위해서 정의 해놓은것이므로
+        // 1) 값들을 form에 저장하여 전달하는것 보다 "매개변수"로 등록하여 전달하는 방법이 좋다
+        // 2) form을 그대로 사용하는 방법
+        // 3) 매개변수 전달  이외에 방버에는 DTO를 생성하여 전달하는 것도 좋은 방법이다(매개변수가 많을 경우) Data Transform Object
+
+// 1)방법       itemService.updateItem(form.getId(),form.getName(),form.getPrice(), form.getStockQuantity());
+// 2)방법       itemService.updateItem(form.getId(),book);
+
+        itemService.updateItem(form.getId(), updateItemDTO);
+
+
+
         return "redirect:/items";
     }
 }

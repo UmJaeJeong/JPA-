@@ -18,7 +18,7 @@ public abstract class Item {
 
     @Id
     @GeneratedValue
-    @Column(name = "itme_id")
+    @Column(name = "item_id")
     private Long id;
 
     private String name;
@@ -45,5 +45,14 @@ public abstract class Item {
             throw new NotEnoughStockException("need more stock");
         }
         stockQuantity = restStock;
+    }
+
+    /**
+     * 아이템 필드값 변경
+     */
+    public void change(String name, int price, int stockQuantity){
+        this.name = name;
+        this.price  = price;
+        this.stockQuantity = stockQuantity;
     }
 }
