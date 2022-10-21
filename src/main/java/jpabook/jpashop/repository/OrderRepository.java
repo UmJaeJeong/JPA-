@@ -102,9 +102,18 @@ public class OrderRepository {
 
     public List<OrderSimpleQueryDto> findOrderDtos() {
         return em.createQuery(
-                "select new jpabook.jpashop.repository.OrderSimpleQueryDto(o.id, m.name,o.orderDate,o.status,m.address) from Order o"+
+                "select new jpabook.jpashop.repository.order.simplequrey.OrderSimpleQueryDto(o.id, m.name,o.orderDate,o.status,m.address) from Order o"+
                 " join o.member m"+
                 " join o.delivery d", OrderSimpleQueryDto.class).
                 getResultList();
+    }
+
+    //fetch join을 할 경우 페이징 처리를 하지 못한다.
+    public List<Order> findAllWithItem(){
+        return em.createQuery("select distinct o from Order o" +
+                " join fetch o.member m" +
+                " join fetch o.delivery d" +
+                " join fetch o.orderItems oi" +
+                " join fetch oi.item i", Order.class).getResultList();
     }
 }
