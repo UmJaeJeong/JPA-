@@ -50,6 +50,19 @@ public class OrderApiController {
         .collect(Collectors.toList());
     }
 
+    @GetMapping("/api/v3/orders")
+    public List<OrderDto> orderV3() {
+        List<Order> orders = orderRepository.findAllWithItem();
+        return orders.stream().map(o -> new OrderDto(o)).collect(Collectors.toList());
+    }
+
+    @GetMapping("/api/v3.1/orders")
+    public List<OrderDto> orderV3_page(){
+        List<Order> orders = orderRepository.findAllMemberWithDelivery();
+        List<OrderDto> result = orders.stream().map(o -> new OrderDto(o)).collect(Collectors.toList());
+        return result;
+    }
+
     @Data
     static class OrderDto {
 
@@ -68,7 +81,7 @@ public class OrderApiController {
             this.orderStatus = order.getStatus();
             this.address = order.getDelivery().getAddress();
             orderItems = order.getOrderItems().stream()
-                    .map(o->new OrderItemDto(o))
+                    .map(o -> new OrderItemDto(o))
                     .collect(Collectors.toList());
 
         }

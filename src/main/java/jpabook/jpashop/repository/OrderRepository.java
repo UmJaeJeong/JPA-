@@ -110,7 +110,7 @@ public class OrderRepository {
 
     //fetch join을 할 경우 페이징 처리를 하지 못한다.
     public List<Order> findAllWithItem(){
-        return em.createQuery("select distinct o from Order o" +
+        return em.createQuery("select o from Order o" +
                 " join fetch o.member m" +
                 " join fetch o.delivery d" +
                 " join fetch o.orderItems oi" +
