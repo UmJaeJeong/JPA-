@@ -92,13 +92,7 @@ public class OrderRepository {
         return query.getResultList();
     }
 
-    public List<Order> findAllMemberWithDelivery() {
-       return em.createQuery(
-                "select o from Order o " +
-                        "join fetch o.member m " +
-                        "join fetch o.delivery d", Order.class)
-                .getResultList();
-    }
+
 
     public List<OrderSimpleQueryDto> findOrderDtos() {
         return em.createQuery(
@@ -109,11 +103,29 @@ public class OrderRepository {
     }
 
     //fetch join을 할 경우 페이징 처리를 하지 못한다.
+    //한번에 조회 하기떄문에
     public List<Order> findAllWithItem(){
         return em.createQuery("select o from Order o" +
                 " join fetch o.member m" +
                 " join fetch o.delivery d" +
                 " join fetch o.orderItems oi" +
-                " join fetch oi.item i", Order.class).getResultList();
+                " join fetch oi.item i", Order.class)
+                .setFirstResult(1)
+                .setMaxResults(100)
+                .getResultList();
+
     }
+
+    //ToOne 관계는 미리 fetch join하는것이 좋다 .
+    public List<Order> findAllWithMemberDelivery() {
+        return em.createQuery(
+                        "select o from Order o " +
+                                "join fetch o.member m " +
+                                "join fetch o.delivery d", Order.class)
+                .setFirstResult(1)
+                .setMaxResults(100)
+                .getResultList();
+    }
+
+
 }

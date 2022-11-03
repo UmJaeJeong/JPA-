@@ -37,7 +37,7 @@ public class OrderSimpleApiController {
 
     @GetMapping("/api/v3/simple-orders")
     public List<OrderSimpleQueryDto> orderV3() {
-        List<Order> orders = orderRepository.findAllMemberWithDelivery();
+        List<Order> orders = orderRepository.findAllWithMemberDelivery();
         List<OrderSimpleQueryDto> collect = orders.stream().map(o ->
                 new OrderSimpleQueryDto(o)
         ).collect(Collectors.toList());
